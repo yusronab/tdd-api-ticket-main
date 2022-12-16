@@ -1,0 +1,38 @@
+const app = require("../app")
+const port = process.env.PORT || 8010;
+
+const http = require("http");
+const { Server } = require("socket.io");
+
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+})
+
+io.on("connection", (socket) => {
+  console.log("INFO:", "Connect");
+
+  socket.on("list", (ticket) => {
+    io.sockets.emit("showing ticket", ticket)
+  })
+
+  socket.on("lts notify", (notify) => {
+    io.sockets.emit("show notify", notify)
+  })
+
+  socket.on("disconnect", () => {
+    console.log("INFO:", "Disconnect");
+  });
+});
+
+
+// app.listen(port, () => {
+//   console.log(`Listening on http://localhost:${port}`)
+// })
+
+server.listen(port, () => {
+  console.log(`Server listening on http://localhost:${port}`)
+});
