@@ -30,6 +30,15 @@ module.exports = {
       role: {
         type: Sequelize.STRING
       },
+      city: {
+        type: Sequelize.STRING
+      },
+      isExist: {
+        type: Sequelize.BOOLEAN
+      },
+      isVerify: {
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

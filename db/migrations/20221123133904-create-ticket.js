@@ -12,6 +12,9 @@ module.exports = {
       destination: {
         type: Sequelize.STRING
       },
+      destinationCode: {
+        type: Sequelize.STRING
+      },
       type: {
         type: Sequelize.STRING
       },
@@ -19,6 +22,9 @@ module.exports = {
         type: Sequelize.STRING
       },
       departure: {
+        type: Sequelize.STRING
+      },
+      departureCode: {
         type: Sequelize.STRING
       },
       takeOff: {
@@ -30,7 +36,13 @@ module.exports = {
       code: {
         type: Sequelize.STRING
       },
+      flight: {
+        type: Sequelize.STRING
+      },
       price: {
+        type: Sequelize.INTEGER
+      },
+      totalChair: {
         type: Sequelize.INTEGER
       },
       createdAt: {
