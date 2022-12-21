@@ -17,6 +17,10 @@ module.exports = {
         return ticketRepository.find(id)
     },
 
+    takeAraoundFilter(filterBody) {
+        return ticketRepository.takeAroundFilter(filterBody)
+    },
+
     async list() {
         try {
             const tickets = await ticketRepository.findAll()
