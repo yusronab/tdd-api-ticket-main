@@ -76,12 +76,21 @@ module.exports = {
             })
     },
 
-    get(req, res) {
+    async get(req, res) {
+        const currentTicket = await ticketService.get(req.params.id)
+        const takeAroundTicket = await ticketService.takeAraoundFilter({ 
+            departureCode: currentTicket.destinationCode,
+            destinationCode: currentTicket.departureCode
+        })
+
         ticketService.get(req.params.id)
             .then((ticket) => {
                 res.status(200).json({
                     status: "OK",
-                    data: ticket
+                    data: {
+                        ticket,
+                        returnTicket: takeAroundTicket,
+                    }   
                 })
             })
             .catch((err) => {

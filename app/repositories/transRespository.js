@@ -22,14 +22,9 @@ module.exports = {
 
     checking(id, num) {
         return transaction.findOne({ where: {
-            [Op.and]: [
-                {
-                    ticketId: id
-                },
-                {
-                    numChair: num
-                }
-            ]
+            ticketId: id,
+            numChair: num,
+            notCancelled: true
         } })
     },
 
