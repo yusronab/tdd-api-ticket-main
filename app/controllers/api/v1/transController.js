@@ -2,6 +2,19 @@ const transService = require("../../../services/transService")
 const ticketService = require("../../../services/ticketService")
 const notifyService = require("../../../services/notifyService")
 
+const generateTransactionCode = async (userId, ticket) => {
+    const transCounter = await transService.transCounter()
+    const data = ticket.dataValues
+
+    const userString = userId.toString().length == 3 ? userId.toString() : userId.toString().length == 2 ? "0" + userId.toString() : "00" + userId.toString()
+    const ticketString = data.id.toString().length == 3 ? data.id.toString() : data.id.toString().length == 2 ? "0" + data.id.toString() : "00" + data.id.toString()
+    const transString = transCounter.toString().length == 3 ? transCounter.toString() : transCounter.toString().length == 2 ? "0" + transCounter.toString() : "00" + transCounter.toString()
+
+    const code = userString + ticketString + data.departureCode + data.destinationCode + transString
+
+    return code;
+}
+
 module.exports = {
     async create(req, res) {
         const ticketId = req.params.ticketId
@@ -9,7 +22,7 @@ module.exports = {
         const isAvailable = await transService.chairAvailable(ticketId, req.body.numChair)
 
         if (isAvailable) {
-            res.status(401).json({ message: "This seet are available" })
+            res.status(400).json({ message: `Seat number ${req.body.numChair} has already been reserved` })
             return
         }
 
@@ -19,31 +32,78 @@ module.exports = {
             res.status(401).json({ message: "Invalid ticket" })
             return
         }
-        
-        const ticketCode = ticket.dataValues.code
 
         const userId = req.user.id
 
-        const transCounter = await transService.transCounter()
+        // booking return ticket
+        if (req.body.returnTicketId) {
+            const returnTicketId = req.body.returnTicketId ? req.body.returnTicketId : ""
+            const returnTicketChair = req.body.returnTicketChair ? req.body.returnTicketChair : ""
 
-        const userString = userId.toString().length == 3 ? userId.toString() : userId.toString().length == 2 ? "0" + userId.toString() : "00" + userId.toString()
-        const ticketString = ticketId.toString().length == 3 ? ticketId.toString() : ticketId.toString().length == 2 ? "0" + ticketId.toString() : "00" + ticketId.toString()
-        const transString = transCounter.toString().length == 3 ? transCounter.toString() : transCounter.toString().length == 2 ? "0" + transCounter.toString() : "00" + transCounter.toString()
+            if (returnTicketId === "" || returnTicketChair === "") {
+                res.status(400).json({ message: `Checking return ticket at Id: ${returnTicketId || "Empty"} or Chair: ${returnTicketChair || "Empty"}` })
+                return
+            }
 
-        const customCode = userString + ticketString + ticket.dataValues.departureCode + ticket.dataValues.destinationCode + transString
+            const returnTicket = await ticketService.get(returnTicketId)
+
+            if (!returnTicket) {
+                res.status(401).json({ message: "Invalid return ticket" })
+                return
+            }
+
+            const returnAvailable = await transService.chairAvailable(returnTicketId, returnTicketChair)
+
+            if (returnAvailable) {
+                res.status(400).json({ message: `Seat number ${returnTicketChair} has already been reserved (return)` })
+                return
+            }
+
+            const requestBody = {
+                ticketCode: returnTicket.code,
+                ticketId: returnTicketId,
+                userId: userId,
+                isPaid: false,
+                notCancelled: true,
+                numChair: returnTicketChair,
+                orderBy: req.body.orderBy,
+                ktp: req.body.ktp,
+                code: await generateTransactionCode(userId, returnTicket)
+            }
+
+            const returnTicketTransaction = await transService.create(requestBody)
+
+            if (!returnTicketTransaction) {
+                res.status(401).json({ message: "Error when booking second ticket" })
+                return
+            }
+
+            const payload = {
+                desc: `Anda telah melakukan pemesanan ticket dengan kode pemesanan: ${returnTicket.code}, segera lakukan pembayaran.`,
+                userId: userId,
+                isRead: false,
+                type: "INFO"
+            }
+
+            notifyService.create(payload)
+        }
+        // booking current ticket
+        const ticketCode = ticket.dataValues.code
 
         const body = {
-            ...req.body,
             ticketId: ticketId,
             ticketCode: ticketCode,
             userId: userId,
             isPaid: false,
             notCancelled: true,
-            code: customCode
+            numChair: req.body.numChair,
+            orderBy: req.body.orderBy,
+            ktp: req.body.ktp,
+            code: await generateTransactionCode(userId, ticket)
         }
 
         transService.create(body)
-            .then((transaction) => {
+            .then(async (transaction) => {
                 const payload = {
                     desc: `Anda telah melakukan pemesanan ticket dengan kode pemesanan: ${transaction.code}, segera lakukan pembayaran.`,
                     userId: userId,

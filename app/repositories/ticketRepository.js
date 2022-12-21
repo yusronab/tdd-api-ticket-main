@@ -21,9 +21,26 @@ module.exports = {
                     as: 'bookingBy',
                     attributes: ['userId', 'numChair'],
                     required: false,
-                    where: { isPaid: true, notCancelled: true }
+                    where: { notCancelled: true }
                 }
-            ]
+            ],
+            order: [ [{ model: transaction, as: 'bookingBy' }, 'numChair', 'ASC'] ],
+        })
+    },
+
+    takeAroundFilter(filterArgs) {
+        return Ticket.findAll({
+            where: filterArgs,
+            include: [
+                {
+                    model: transaction,
+                    as: 'bookingBy',
+                    attributes: ['userId', 'numChair'],
+                    required: false,
+                    where: { notCancelled: true }
+                }
+            ],
+            order: [ [{ model: transaction, as: 'bookingBy' }, 'numChair', 'ASC'] ],
         })
     },
 
