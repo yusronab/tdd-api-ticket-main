@@ -4,9 +4,9 @@ info:
   version: 0.0.1
 servers:
   - description: Production
-    url: https://api-ticket.up.railway.app/
+    url: https://ticket-main.up.railway.app/
   - description: Development
-    url: http://localhost:8000/
+    url: http://localhost:8010/
 tags:
   - name: Users
     description: Contain every operation about User Resource
@@ -37,8 +37,8 @@ paths:
             application/json:
               schema:
                 oneOf:
-                - $ref: "#/components/schemas/UserNotFound"
-                - $ref: "#/components/schemas/WrongPassword"
+                  - $ref: "#/components/schemas/UserNotFound"
+                  - $ref: "#/components/schemas/WrongPassword"
 
   /v1/user/register:
     post:
@@ -58,14 +58,14 @@ paths:
             application/json:
               schema:
                 oneOf:
-                - $ref: "#/components/schemas/EmailExistResponse"
-                - $ref: "#/components/schemas/BiggerThan2MB"
-                - $ref: "#/components/schemas/BadReqUpload"
+                  - $ref: "#/components/schemas/EmailExistResponse"
+                  - $ref: "#/components/schemas/BiggerThan2MB"
+                  - $ref: "#/components/schemas/BadReqUpload"
 
   /v1/user/current:
     get:
       security:
-      - bearerAuth: []
+        - bearerAuth: []
       tags:
         - Users
       summary: Get current User
@@ -88,7 +88,7 @@ paths:
   /v1/user/update:
     put:
       security:
-      - bearerAuth: []
+        - bearerAuth: []
       tags:
         - Users
       summary: Update User by who's login
@@ -102,7 +102,7 @@ paths:
           schema:
             type: string
             example: eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTY2OTUyOTg4NiwiaWF0IjoxNjY5NTI5ODg2fQ.dS6B2S9bjN5mHA8Zu5iKgRnQKmwRKv8QKl7CzPJGdys
-      requestBody: 
+      requestBody:
         $ref: "#/components/requestBodies/UserUpdate"
       responses:
         "200":
@@ -113,9 +113,9 @@ paths:
             application/json:
               schema:
                 oneOf:
-                - $ref: "#/components/schemas/BadReqUpload"
-                - $ref: "#/components/schemas/BiggerThan2MB"
-                - $ref: "#/components/schemas/UploadFail"
+                  - $ref: "#/components/schemas/BadReqUpload"
+                  - $ref: "#/components/schemas/BiggerThan2MB"
+                  - $ref: "#/components/schemas/UploadFail"
         "401":
           $ref: "#/components/responses/Unauthorized"
         "422":
@@ -143,7 +143,7 @@ paths:
           description: "Success deleting current user login"
         "422":
           $ref: "#/components/responses/FailedUpdate"
-          
+
   /v1/user/history:
     get:
       security:
@@ -166,7 +166,7 @@ paths:
           $ref: "#/components/responses/UserHistoryRes"
         "400":
           description: "Fail"
-          
+
   /v1/user/notify:
     get:
       security:
@@ -198,7 +198,7 @@ paths:
       operationId: GetAllUser
       description: Get all of the users by the admin authorization
       tags:
-      - Admins
+        - Admins
       parameters:
         - in: header
           name: token
@@ -212,7 +212,7 @@ paths:
           $ref: "#/components/responses/GetUsers"
         "400":
           description: Fail
-      
+
   /v1/admin/detail/{id}:
     get:
       security:
@@ -221,7 +221,7 @@ paths:
       operationId: GetUserDetail
       description: Get detail user by admin
       tags:
-      - Admins
+        - Admins
       parameters:
         - in: header
           name: token
@@ -250,7 +250,7 @@ paths:
       operationId: UpdateAdmin
       description: Update admin by using admin authorization
       tags:
-      - Admins
+        - Admins
       parameters:
         - in: header
           name: token
@@ -281,7 +281,7 @@ paths:
       operationId: GetDetail
       description: Get detail user by admin
       tags:
-      - Admins
+        - Admins
       parameters:
         - in: header
           name: token
@@ -311,7 +311,7 @@ paths:
       operationId: RegisterAdmin
       description: Create new admin using admin authorization
       tags:
-      - Admins
+        - Admins
       parameters:
         - in: header
           name: token
@@ -327,7 +327,7 @@ paths:
           $ref: "#/components/responses/UserRegisterResponse"
         "400":
           description: Fail
-          
+
   /v1/ticket:
     get:
       security:
@@ -336,7 +336,7 @@ paths:
       operationId: GetTickets
       description: Get all tickets in the app
       tags:
-      - Tickets
+        - Tickets
       parameters:
         - in: header
           name: token
@@ -350,7 +350,7 @@ paths:
           $ref: "#/components/responses/GetTicketsRes"
         "400":
           description: "FAIL"
-    
+
     post:
       security:
         - bearerAuth: []
@@ -374,31 +374,31 @@ paths:
           $ref: "#/components/responses/CreateTicketRes"
         "400":
           description: "FAIL"
-      
+
   /v1/ticket-doms:
     get:
       summary: Get List of domestic ticket in database
       description: Menampilkan semua daftar tiket penerbangan domestik
       tags:
-      - Tickets
+        - Tickets
       responses:
         "200":
           $ref: "#/components/responses/GetTicketsRes"
         "400":
           description: "FAIL"
-          
+
   /v1/ticket-intr:
     get:
       summary: Get List of international ticket in database
       description: Menampilkan semua daftar tiket penerbangan intenasional
       tags:
-      - Tickets
+        - Tickets
       responses:
         "200":
           $ref: "#/components/responses/GetTicketsRes"
         "400":
           description: "FAIL"
-          
+
   /v1/ticket/{id}:
     get:
       security:
@@ -428,7 +428,7 @@ paths:
           $ref: "#/components/responses/DetailTicketRes"
         "400":
           description: "FAIL"
-          
+
     put:
       security:
         - bearerAuth: []
@@ -465,10 +465,10 @@ paths:
                   message:
                     type: string
                     example: "Update Successfully"
-            
+
         "400":
           description: "FAIL"
-      
+
     delete:
       security:
         - bearerAuth: []
@@ -497,7 +497,7 @@ paths:
           description: "SUCCESS DELETING"
         "400":
           description: "FAIL"
-          
+
   /v1/trans:
     get:
       tags:
@@ -505,18 +505,18 @@ paths:
       summary: Displays a list of transactions the user has made
       description: Menampilkan semua daftar transaksi yang telah dilakukan oleh member, routes ini diperuntukan role admin dan superadmin.
       responses:
-        '200':
+        "200":
           description: Successful get list transaction
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Transaction'
+                $ref: "#/components/schemas/Transaction"
             application/xml:
               schema:
-                $ref: '#/components/schemas/Transaction'
-        '400':
+                $ref: "#/components/schemas/Transaction"
+        "400":
           description: Fail
-          
+
   /v1/trans/{ticketId}:
     post:
       tags:
@@ -537,23 +537,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TransactionReq'
+              $ref: "#/components/schemas/TransactionReq"
           application/xml:
             schema:
-              $ref: '#/components/schemas/TransactionReq'
+              $ref: "#/components/schemas/TransactionReq"
       responses:
-        '201':
+        "201":
           description: Successful update transaction
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TransactionRes'
+                $ref: "#/components/schemas/TransactionRes"
             application/xml:
               schema:
-                $ref: '#/components/schemas/TransactionRes'
-        '400':
+                $ref: "#/components/schemas/TransactionRes"
+        "400":
           description: Fail
-          
+
   /v1/trans/paid/{transId}:
     put:
       tags:
@@ -570,18 +570,18 @@ paths:
             format: int64
             example: 27
       responses:
-        '201':
+        "201":
           description: Successful update isPaid value
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PutTransactionRes'
+                $ref: "#/components/schemas/PutTransactionRes"
             application/xml:
               schema:
-                $ref: '#/components/schemas/PutTransactionRes'
-        '400':
+                $ref: "#/components/schemas/PutTransactionRes"
+        "400":
           description: Fail
-          
+
   /v1/trans/cancel/{transId}:
     put:
       tags:
@@ -598,18 +598,18 @@ paths:
             format: int64
             example: 27
       responses:
-        '201':
+        "201":
           description: Successful update notCancelled value
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PutTransactionResCancel'
+                $ref: "#/components/schemas/PutTransactionResCancel"
             application/xml:
               schema:
-                $ref: '#/components/schemas/PutTransactionResCancel'
-        '400':
+                $ref: "#/components/schemas/PutTransactionResCancel"
+        "400":
           description: Fail
-  
+
   /v1/notify:
     get:
       tags:
@@ -617,18 +617,18 @@ paths:
       summary: Return list notification in database
       description: Digunakan untuk menampilkan list semua data yang terdapat di database.
       responses:
-        '200':
+        "200":
           description: Successful get all notification
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetNotify'
+                $ref: "#/components/schemas/GetNotify"
             application/xml:
               schema:
-                $ref: '#/components/schemas/GetNotify'
-        '400':
+                $ref: "#/components/schemas/GetNotify"
+        "400":
           description: Fail
-          
+
   /v1/notify/{id}:
     put:
       tags:
@@ -645,11 +645,11 @@ paths:
             format: int64
             example: 27
       responses:
-        '204':
+        "204":
           description: Successful update isRead value
-        '400':
+        "400":
           description: Fail
-      
+
 components:
   securitySchemes:
     bearerAuth:
@@ -704,7 +704,7 @@ components:
               birth:
                 type: string
                 example: "2022-10-21T15:27:36.435Z"
-                
+
     LoginRequest:
       description: Login Request Body
       required: true
@@ -719,7 +719,7 @@ components:
               password:
                 type: string
                 example: "halo12345"
-    
+
     CreateAdmin:
       description: Create admin
       required: true
@@ -737,7 +737,7 @@ components:
               password:
                 type: string
                 example: "adminkeren123"
-                
+
     TicketReq:
       description: Data Ticket
       required: true
@@ -779,7 +779,7 @@ components:
               totalChair:
                 type: integer
                 example: 100
-    
+
   responses:
     LoginResponse:
       description: Success Login
@@ -791,7 +791,7 @@ components:
               token:
                 type: string
                 example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibmFtZSI6bnVsbCwicm9sZSI6Im1lbWJlciIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE2Njk1MzExMDJ9.QsScd8E0t5kIjvnJqwKCl7Vp_ZzcZL33QYHfsn3tGkM"
-    
+
     UserRegisterResponse:
       description: Create new user success
       content:
@@ -807,7 +807,7 @@ components:
                 properties:
                   users:
                     $ref: "#/components/schemas/Users"
-    
+
     Unauthorized:
       description: User don't have permisson because unauthorized
       content:
@@ -890,29 +890,29 @@ components:
                     birth:
                       type: string
                 example:
-                - id: 1
-                  email: kiki@gmail.com
-                  password: $2b$10$eN9y23azrH5pNbE/gAWqdeYEr3IJ7I7vIAfGUCzDaIpErR2mJhewe
-                  role: member
-                  isExist: true
-                  updateAt: "2022-11-27T06:37:22.652Z"
-                  createdAt: "2022-11-27T06:37:22.652Z"
-                  name: "kiki"
-                  image: "bali.png"
-                  phone: 08123456789
-                  birth: "2022-11-27T06:37:22.652Z"
-                - id: 2
-                  email: kiko@gmail.com
-                  password: $2b$10$eN9y23azrH5pNbE/gAWqdeYEr3IJ7I7vIAfGUCzDaIpErR2mJhewe
-                  role: member
-                  isExist: true
-                  updateAt: "2022-11-27T06:37:22.652Z"
-                  createdAt: "2022-11-27T06:37:22.652Z"
-                  name: "kiko"
-                  image: "paris.png"
-                  phone: 08123456789
-                  birth: "2022-11-27T06:37:22.652Z"
-                  
+                  - id: 1
+                    email: kiki@gmail.com
+                    password: $2b$10$eN9y23azrH5pNbE/gAWqdeYEr3IJ7I7vIAfGUCzDaIpErR2mJhewe
+                    role: member
+                    isExist: true
+                    updateAt: "2022-11-27T06:37:22.652Z"
+                    createdAt: "2022-11-27T06:37:22.652Z"
+                    name: "kiki"
+                    image: "bali.png"
+                    phone: 08123456789
+                    birth: "2022-11-27T06:37:22.652Z"
+                  - id: 2
+                    email: kiko@gmail.com
+                    password: $2b$10$eN9y23azrH5pNbE/gAWqdeYEr3IJ7I7vIAfGUCzDaIpErR2mJhewe
+                    role: member
+                    isExist: true
+                    updateAt: "2022-11-27T06:37:22.652Z"
+                    createdAt: "2022-11-27T06:37:22.652Z"
+                    name: "kiko"
+                    image: "paris.png"
+                    phone: 08123456789
+                    birth: "2022-11-27T06:37:22.652Z"
+
     UserNotifRes:
       description: User notif response
       content:
@@ -943,21 +943,21 @@ components:
                     UpdateAt:
                       type: string
                 example:
-                - id: 1
-                  userId: 2
-                  desc: "Melakukan pemesanan ticket dengan ID TRANSAKSI: TI007T19A26"
-                  isRead: false
-                  type: "INFO"
-                  createdAt: "2022-11-29T03:17:33.528Z"
-                  updatedAt: "2022-11-29T03:17:33.528Z"
-                - id: 8
-                  userId: 2
-                  desc: "Melakukan pemesanan ticket dengan ID TRANSAKSI: TI007T19A26"
-                  isRead: false
-                  type: "INFO"
-                  createdAt: "2022-11-29T03:17:33.528Z"
-                  updatedAt: "2022-11-29T03:17:33.528Z"
-                  
+                  - id: 1
+                    userId: 2
+                    desc: "Melakukan pemesanan ticket dengan ID TRANSAKSI: TI007T19A26"
+                    isRead: false
+                    type: "INFO"
+                    createdAt: "2022-11-29T03:17:33.528Z"
+                    updatedAt: "2022-11-29T03:17:33.528Z"
+                  - id: 8
+                    userId: 2
+                    desc: "Melakukan pemesanan ticket dengan ID TRANSAKSI: TI007T19A26"
+                    isRead: false
+                    type: "INFO"
+                    createdAt: "2022-11-29T03:17:33.528Z"
+                    updatedAt: "2022-11-29T03:17:33.528Z"
+
     GetTicketsRes:
       description: Getting tickets response
       content:
@@ -1005,37 +1005,37 @@ components:
                         updatedAt:
                           type: string
                     example:
-                    - id: 39
-                      code: "DO22TO14AR14012"
-                      flight: "DOMESTIC"
-                      departure: "Bandar Udara Internasional Minangkabau, Padang"
-                      departureCode: "PDG"
-                      destination: "Bandar Udara internasional Syamsudin Noor, Banjarmasin"
-                      destinationCode: "BDJ"
-                      type: "Adult"
-                      class: "Economy"
-                      takeOff: "2022-01-13T02:22:00.000Z"
-                      arrive: "2022-01-13T02:22:00.000Z"
-                      price: 1000000
-                      totalChair: 100
-                      createdAt: "2022-01-13T02:22:00.000Z"
-                      updatedAt: "2022-01-13T02:22:00.000Z"
-                    - id: 40
-                      code: "IN22TO14AR14012"
-                      flight: "INTERNATIONAL"
-                      departure: "Bandar Udara Internasional Jenderal Ahmad Yani, Semarang"
-                      departureCode: "SRG"
-                      destination: "Bandar Udara Internasional Sultan Mahmud Badaruddin II, Palembang"
-                      destinationCode: "PLM"
-                      type: "Adult"
-                      class: "Bussiness"
-                      takeOff: "2022-01-13T02:22:00.000Z"
-                      arrive: "2022-01-13T02:22:00.000Z"
-                      price: 3000000
-                      totalChair: 100
-                      createdAt: "2022-01-13T02:22:00.000Z"
-                      updatedAt: "2022-01-13T02:22:00.000Z"
-                      
+                      - id: 39
+                        code: "DO22TO14AR14012"
+                        flight: "DOMESTIC"
+                        departure: "Bandar Udara Internasional Minangkabau, Padang"
+                        departureCode: "PDG"
+                        destination: "Bandar Udara internasional Syamsudin Noor, Banjarmasin"
+                        destinationCode: "BDJ"
+                        type: "Adult"
+                        class: "Economy"
+                        takeOff: "2022-01-13T02:22:00.000Z"
+                        arrive: "2022-01-13T02:22:00.000Z"
+                        price: 1000000
+                        totalChair: 100
+                        createdAt: "2022-01-13T02:22:00.000Z"
+                        updatedAt: "2022-01-13T02:22:00.000Z"
+                      - id: 40
+                        code: "IN22TO14AR14012"
+                        flight: "INTERNATIONAL"
+                        departure: "Bandar Udara Internasional Jenderal Ahmad Yani, Semarang"
+                        departureCode: "SRG"
+                        destination: "Bandar Udara Internasional Sultan Mahmud Badaruddin II, Palembang"
+                        destinationCode: "PLM"
+                        type: "Adult"
+                        class: "Bussiness"
+                        takeOff: "2022-01-13T02:22:00.000Z"
+                        arrive: "2022-01-13T02:22:00.000Z"
+                        price: 3000000
+                        totalChair: 100
+                        createdAt: "2022-01-13T02:22:00.000Z"
+                        updatedAt: "2022-01-13T02:22:00.000Z"
+
     CreateTicketRes:
       description: Create ticket res
       content:
@@ -1085,7 +1085,7 @@ components:
                   totalChair:
                     type: integer
                     example: 100
-                  code: 
+                  code:
                     type: string
                     example: "TI010T14A14"
                   updatedAt:
@@ -1094,7 +1094,7 @@ components:
                   createdAt:
                     type: string
                     example: "2022-01-14T11:00:00.000Z"
-                    
+
     DetailTicketRes:
       description: Detail of ticket
       content:
@@ -1111,7 +1111,7 @@ components:
                   id:
                     type: integer
                     example: 46
-                  code: 
+                  code:
                     type: string
                     example: "TI010T14A14"
                   departure:
@@ -1161,7 +1161,7 @@ components:
                         numChair:
                           type: integer
                           example: 5
-                          
+
     UserHistoryRes:
       description: User history transaction response
       content:
@@ -1228,53 +1228,53 @@ components:
                             updateAt:
                               type: string
                     example:
-                    - id: 2
-                      ticketId: 9
-                      ticketCode: "TI007T19A26"
-                      userId: 2
-                      date: null
-                      orderBy: "Komarudin"
-                      ktp: "112390905555"
-                      isPaid: false
-                      numChair: null
-                      createdAt: "2022-11-25T11:36:49.397Z"
-                      updatedAt: "2022-11-25T11:36:49.397Z"
-                      ticket:
-                        id: 9
-                        destination: "Jakarta"
-                        type: "Adult"
-                        class: "Economy"
-                        departure: "Makassar"
-                        takeOff: "2022-11-25T11:36:49.397Z"
-                        arrive: "2022-11-27T00:36:49.397Z"
-                        code: "TI007T19A26"
-                        price: 2500000
-                        createdAt: "2022-11-25T10:12:52.857Z"
-                        updatedAt: "2022-11-25T14:07:57.791Z"
-                    - id: 3
-                      ticketId: 9
-                      ticketCode: "TI007T19A26"
-                      userId: 2
-                      date: null
-                      orderBy: "Komarudin"
-                      ktp: "112390905555"
-                      isPaid: true
-                      numChair: 20
-                      createdAt: "2022-11-25T11:36:49.397Z"
-                      updatedAt: "2022-11-25T11:36:49.397Z"
-                      ticket:
-                        id: 9
-                        destination: "Jakarta"
-                        type: "Adult"
-                        class: "Economy"
-                        departure: "Makassar"
-                        takeOff: "2022-11-25T11:36:49.397Z"
-                        arrive: "2022-11-27T00:36:49.397Z"
-                        code: "TI007T19A26"
-                        price: 2500000
-                        createdAt: "2022-11-25T10:12:52.857Z"
-                        updatedAt: "2022-11-25T14:07:57.791Z"
-                        
+                      - id: 2
+                        ticketId: 9
+                        ticketCode: "TI007T19A26"
+                        userId: 2
+                        date: null
+                        orderBy: "Komarudin"
+                        ktp: "112390905555"
+                        isPaid: false
+                        numChair: null
+                        createdAt: "2022-11-25T11:36:49.397Z"
+                        updatedAt: "2022-11-25T11:36:49.397Z"
+                        ticket:
+                          id: 9
+                          destination: "Jakarta"
+                          type: "Adult"
+                          class: "Economy"
+                          departure: "Makassar"
+                          takeOff: "2022-11-25T11:36:49.397Z"
+                          arrive: "2022-11-27T00:36:49.397Z"
+                          code: "TI007T19A26"
+                          price: 2500000
+                          createdAt: "2022-11-25T10:12:52.857Z"
+                          updatedAt: "2022-11-25T14:07:57.791Z"
+                      - id: 3
+                        ticketId: 9
+                        ticketCode: "TI007T19A26"
+                        userId: 2
+                        date: null
+                        orderBy: "Komarudin"
+                        ktp: "112390905555"
+                        isPaid: true
+                        numChair: 20
+                        createdAt: "2022-11-25T11:36:49.397Z"
+                        updatedAt: "2022-11-25T11:36:49.397Z"
+                        ticket:
+                          id: 9
+                          destination: "Jakarta"
+                          type: "Adult"
+                          class: "Economy"
+                          departure: "Makassar"
+                          takeOff: "2022-11-25T11:36:49.397Z"
+                          arrive: "2022-11-27T00:36:49.397Z"
+                          code: "TI007T19A26"
+                          price: 2500000
+                          createdAt: "2022-11-25T10:12:52.857Z"
+                          updatedAt: "2022-11-25T14:07:57.791Z"
+
   schemas:
     Users:
       type: object
@@ -1315,28 +1315,28 @@ components:
         deletedAt:
           type: string
           example: "2022-11-27T06:37:22.652Z"
-    
+
     UserNotFound:
       type: object
       properties:
         message:
           type: string
           example: "User not found"
-          
+
     WrongPassword:
       type: object
       properties:
         message:
           type: string
           example: "Wrong Password"
-          
+
     EmailExistResponse:
       type: object
       properties:
         message:
           type: string
           example: "This email already exist"
-          
+
     BiggerThan2MB:
       type: object
       properties:
@@ -1349,7 +1349,7 @@ components:
         errors:
           type: string
           example: "File size is bigger than 2 MB"
-          
+
     BadReqUpload:
       type: object
       properties:
@@ -1362,7 +1362,7 @@ components:
         errors:
           type: string
           example: "Format file must be PNG, JPG or JPEG"
-          
+
     UploadFail:
       type: object
       properties:
@@ -1372,7 +1372,7 @@ components:
         errors:
           type: string
           example: "CloudinaryError: Error in sending request to server - Failed to connect to api.cloudinary.com port 443:"
-          
+
     GetNotify:
       type: object
       properties:
@@ -1402,20 +1402,20 @@ components:
                   updatedAt:
                     type: string
               example:
-              - id: 25
-                userId: 2
-                desc: "Anda telah membatalkan atau menyelesaikan pemesanan dengan kode pemesanan: 002037AMQMLG021."
-                type: INFO
-                isRead: false
-                createdAt: "2022-11-29T14:50:00.006Z"
-                updatedAt: "2022-11-29T14:50:00.006Z"
-              - id: 24
-                userId: 3
-                desc: "Terimakasih, anda telah melakukan pembayaran dengan kode pemesanan: 002037AMQMLG021."
-                type: INFO
-                isRead: false
-                createdAt: "2022-11-29T14:50:00.006Z"
-                updatedAt: "2022-11-29T14:50:00.006Z"
+                - id: 25
+                  userId: 2
+                  desc: "Anda telah membatalkan atau menyelesaikan pemesanan dengan kode pemesanan: 002037AMQMLG021."
+                  type: INFO
+                  isRead: false
+                  createdAt: "2022-11-29T14:50:00.006Z"
+                  updatedAt: "2022-11-29T14:50:00.006Z"
+                - id: 24
+                  userId: 3
+                  desc: "Terimakasih, anda telah melakukan pembayaran dengan kode pemesanan: 002037AMQMLG021."
+                  type: INFO
+                  isRead: false
+                  createdAt: "2022-11-29T14:50:00.006Z"
+                  updatedAt: "2022-11-29T14:50:00.006Z"
       xml:
         name: notify
     PutTransactionResCancel:
@@ -1561,32 +1561,32 @@ components:
                   updatedAt:
                     type: string
               example:
-              - id: 21
-                code: "002037AMQMLG020"
-                ticketId: 37
-                ticketCode: "TI001T03A03"
-                userId: 2
-                date: "2022-11-29T12:54:28.473Z"
-                orderBy: "Momonga Sama"
-                ktp: "112390905555"
-                isPaid: false
-                notCancelled: true
-                numChair: 1
-                createdAt: "2022-11-29T12:54:28.473Z"
-                updatedAt: "2022-11-29T12:54:28.473Z"
-              - id: 20
-                code: "002017JKTSGP019"
-                ticketId: 17
-                ticketCode: "TI015T19A26"
-                userId: 2
-                date: "2022-11-29T12:54:28.473Z"
-                orderBy: "Momonga Sama"
-                ktp: "112390905555"
-                isPaid: true
-                notCancelled: true
-                numChair: 5
-                createdAt: "2022-11-29T12:54:28.473Z"
-                updatedAt: "2022-11-29T12:54:28.473Z"
+                - id: 21
+                  code: "002037AMQMLG020"
+                  ticketId: 37
+                  ticketCode: "TI001T03A03"
+                  userId: 2
+                  date: "2022-11-29T12:54:28.473Z"
+                  orderBy: "Momonga Sama"
+                  ktp: "112390905555"
+                  isPaid: false
+                  notCancelled: true
+                  numChair: 1
+                  createdAt: "2022-11-29T12:54:28.473Z"
+                  updatedAt: "2022-11-29T12:54:28.473Z"
+                - id: 20
+                  code: "002017JKTSGP019"
+                  ticketId: 17
+                  ticketCode: "TI015T19A26"
+                  userId: 2
+                  date: "2022-11-29T12:54:28.473Z"
+                  orderBy: "Momonga Sama"
+                  ktp: "112390905555"
+                  isPaid: true
+                  notCancelled: true
+                  numChair: 5
+                  createdAt: "2022-11-29T12:54:28.473Z"
+                  updatedAt: "2022-11-29T12:54:28.473Z"
   #     xml:
   #       name: transaction
   # securitySchemes:
