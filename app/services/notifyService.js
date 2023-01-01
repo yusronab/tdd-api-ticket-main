@@ -23,5 +23,9 @@ module.exports = {
 
     updateReading(id) {
         return notifyRepository.updateReading(id)
+    },
+
+    deleteNotify(id) {
+        return notifyRepository.destroyNotify(id)
     }
 }

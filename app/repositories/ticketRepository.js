@@ -1,4 +1,4 @@
-const { Ticket, transaction } = require("../models")
+const { Ticket, transaction, Wishlist } = require("../models")
 
 module.exports = {
     create(createArgs) {
@@ -57,10 +57,43 @@ module.exports = {
     },
 
     domesctic() {
-        return Ticket.findAll({ where: { flight: "DOMESTIC" } })
+        return Ticket.findAll({ 
+            where: { flight: "DOMESTIC" },
+            order: [
+                ['updatedAt', 'DESC']
+            ]
+        })
     },
 
     international() {
-        return Ticket.findAll({ where: { flight: "INTERNATIONAL" } })
+        return Ticket.findAll({
+            where: { flight: "INTERNATIONAL" },
+            order: [
+                ['updatedAt', 'DESC']
+            ]
+        })
     },
+
+    userWishlist(userId) {
+        return Wishlist.findAll({
+            where: { userId },
+            include: [
+                {
+                    model: Ticket,
+                    as: 'detailTicket',
+                }
+            ],
+            order: [
+                ["updatedAt", "DESC"]
+            ]
+        })
+    },
+
+    addWishlist(createArgs) {
+        return Wishlist.create(createArgs)
+    },
+
+    destroyWishlist(id) {
+        return Wishlist.destroy({ where: { id } })
+    }
 }

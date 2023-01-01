@@ -1,4 +1,6 @@
 const app = require("../app")
+const cron = require('cron');
+const { updateExpiredPayments } = require("../app/controllers/api/v1/systemController")
 const port = process.env.PORT || 8010;
 
 const http = require("http");
@@ -28,6 +30,8 @@ io.on("connection", (socket) => {
   });
 });
 
+const updateJob = new cron.CronJob('* * * * *', updateExpiredPayments);
+updateJob.start();
 
 // app.listen(port, () => {
 //   console.log(`Listening on http://localhost:${port}`)

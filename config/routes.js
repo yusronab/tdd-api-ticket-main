@@ -35,6 +35,8 @@ apiRouter.get("/v2/user/register-verify/:token", controllers.api.v2.userControll
 apiRouter.get("/v1/user/history", controllers.api.v1.userController.whoIsLogin, controllers.api.v1.transController.history)
 // user notification
 apiRouter.get("/v1/user/notify", controllers.api.v1.userController.whoIsLogin, controllers.api.v1.notifyController.userNotify)
+// user wishlist
+apiRouter.get("/v1/user/wishlist", controllers.api.v1.userController.whoIsLogin, controllers.api.v1.ticketController.userWishlist)
 
 // ticket handle
 apiRouter.get("/v1/ticket", controllers.api.v1.ticketController.list)
@@ -54,6 +56,11 @@ apiRouter.post("/v1/trans/:ticketId", controllers.api.v1.userController.whoIsLog
 // notify handle
 apiRouter.get("/v1/notify", controllers.api.v1.notifyController.list)
 apiRouter.put("/v1/notify/:id", controllers.api.v1.notifyController.updateReading)
+apiRouter.delete("/v1/notify/:notifyId", controllers.api.v1.notifyController.deleteNotify)
+
+// wishlist handle
+apiRouter.post("/v1/wishlist/:ticketId", controllers.api.v1.userController.whoIsLogin, controllers.api.v1.ticketController.addWishlist)
+apiRouter.delete("/v1/wishlist/:wishId", controllers.api.v1.userController.whoIsLogin, controllers.api.v1.ticketController.deleteWishlist)
 
 apiRouter.get("/api/errors", () => {
     throw new Error(

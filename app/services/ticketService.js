@@ -43,5 +43,17 @@ module.exports = {
 
     ticketIntr() {
         return ticketRepository.international()
+    },
+
+    userWishlist(id) {
+        return ticketRepository.userWishlist(id)
+    },
+
+    addWishlist(requestBody) {
+        return ticketRepository.addWishlist(requestBody)
+    },
+
+    deleteWishlist(id) {
+        return ticketRepository.destroyWishlist(id)
     }
 }

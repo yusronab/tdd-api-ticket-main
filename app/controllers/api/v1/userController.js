@@ -55,7 +55,7 @@ module.exports = {
   async whoIsLogin(req, res, next) {
     try {
       const bearerToken = req.headers.authorization;
-      console.log("token =>", bearerToken);
+      
       const token = bearerToken.split(" ")[1];
       const tokenPayload = jwt.verify(
         token,

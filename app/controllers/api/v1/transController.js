@@ -68,6 +68,7 @@ module.exports = {
                 numChair: returnTicketChair,
                 orderBy: req.body.orderBy,
                 ktp: req.body.ktp,
+                date: returnTicket.takeOff,
                 code: await generateTransactionCode(userId, returnTicket)
             }
 
@@ -99,6 +100,7 @@ module.exports = {
             numChair: req.body.numChair,
             orderBy: req.body.orderBy,
             ktp: req.body.ktp,
+            date: ticket.takeOff,
             code: await generateTransactionCode(userId, ticket)
         }
 

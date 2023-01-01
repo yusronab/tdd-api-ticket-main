@@ -15,6 +15,12 @@ module.exports = (sequelize, DataTypes) => {
         as: 'bookingBy', 
         sourceKey: 'id'
       })
+
+      this.hasMany(models.Wishlist, {
+        foreignKey: 'ticketId',
+        as: 'wishlist', 
+        sourceKey: 'id'
+      })
     }
   }
   Ticket.init({

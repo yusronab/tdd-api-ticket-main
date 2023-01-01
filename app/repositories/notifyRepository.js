@@ -22,5 +22,9 @@ module.exports = {
 
     updateReading(id) {
         return Notify.update({ isRead: true }, { where: { id: id } })
+    },
+
+    destroyNotify(id) {
+        return Notify.destroy({ where: { id } })
     }
 }
