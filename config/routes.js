@@ -52,6 +52,7 @@ apiRouter.get("/v1/trans", controllers.api.v1.transController.list)
 apiRouter.put("/v1/trans/paid/:transId", controllers.api.v1.transController.payingTrans)
 apiRouter.put("/v1/trans/cancel/:transId", controllers.api.v1.transController.cancelTrans)
 apiRouter.post("/v1/trans/:ticketId", controllers.api.v1.userController.whoIsLogin, controllers.api.v1.transController.create)
+apiRouter.delete("/v1/trans/:transId", controllers.api.v1.userController.whoIsLogin, controllers.api.v1.transController.destroyTransc)
 
 // notify handle
 apiRouter.get("/v1/notify", controllers.api.v1.notifyController.list)

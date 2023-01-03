@@ -231,5 +231,25 @@ module.exports = {
                     errors: err.message
                 })
             })
+    },
+
+    destroyTransc(req, res) {
+        const id = req.params.transId
+
+        if (!id) {
+            res.status(401).json({ message: "Invalid transaction" })
+            return
+        }
+
+        transService.delete(id)
+            .then(() => {
+                res.status(204).end()
+            })
+            .catch((err) => {
+                res.status(400).json({
+                    status: "FAIL",
+                    errors: err.message
+                })
+            })
     }
 }
